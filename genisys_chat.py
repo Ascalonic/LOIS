@@ -45,6 +45,11 @@ class DictMgr(object):
 
 		return data
 
+	#tokenize the input
+	def write_dict (self, dict_type, data):
+		with open(dict_type + '.json', 'w') as f:
+    			json.dump(data, f)
+
 ################# Initialise the dictionaries ##################
 
 dict_mgr = DictMgr()
@@ -76,10 +81,10 @@ class BotAI(object):
 
 	#get the type of the word - associated with what
 	def get_word_type(self, test_string):
-		for word_arrays in words_db:
-			for word_obj in words_db[word_arrays]:
-				if test_string == word_obj['value']:
-					return word_arrays
+		for word_objs in words_db:
+			for key in words_db[word_objs]:
+				if test_string == key:
+					return word_objs
 		return 'nonsense'
 
 	#check whether the input has nothing to do with any thing in words database
@@ -128,3 +133,6 @@ while(said!="#quit"):
 
 
 bot_io.bot_say("Goodbye, It was fun talking to you!")
+
+dict_mgr.write_dict('knowledge', knowledge_db)
+dict_mgr.write_dict('words', words_db)

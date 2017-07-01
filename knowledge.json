@@ -1,6 +1,1 @@
-{
-  "self": {
-    "type": "chatbot",
-    "name": "Lois"
-  }
-}
+{"self": {"type": "chatbot", "name": "Lois"}}
