@@ -1,1 +1,1 @@
-{"greeting": [{"value": "hi", "weight": 0.2}, {"value": "hello", "weight": 0.2}, {"value": "howdy", "weight": 0.2}, {"value": "hey", "weight": 0.2}, {"value": "yo", "weight": 0.2}]}
+{"greeting": {"howdy": -1.25, "hi": -1.25, "hello": 6.0, "yo": -1.25, "hey": -1.25}}

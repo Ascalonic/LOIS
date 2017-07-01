@@ -94,6 +94,15 @@ class BotAI(object):
 				return False
 		return True
 
+	#modify the word weights based on recent occurance
+	def modify_weights(self, word_type, word):
+		my_weight = words_db[word_type][word]
+		other_weight = 1.0-my_weight
+		words_db[word_type][word] += (other_weight / (len(words_db[word_type])-1))
+		new_weight = 1.0-words_db[word_type][word]
+		for key in words_db[word_type]:
+			if key!=word:
+				words_db[word_type][key] = (words_db[word_type][key]/other_weight)*new_weight
 
 	#process the input
 	def bot_process (self, response):
@@ -115,6 +124,7 @@ class BotAI(object):
 				#find the context
 					for tok in resp_tok:
 						if self.get_word_type(tok)=='greeting':
+							self.modify_weights('greeting',tok)
 							return "Hello..."
 
 		nl_chunker = NLChunker()
