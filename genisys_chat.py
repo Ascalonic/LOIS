@@ -71,6 +71,21 @@ class BotAI(object):
 				return True
 		return False
 
+	#get the type of the word - associated with what
+	def get_word_type(self, test_string):
+		for word_arrays in words_db:
+			if test_string in words_db[word_arrays]:
+				return word_arrays
+		return 'nonsense'
+
+	#check whether the input has nothing to do with any thing in words database
+	def check_for_nonsense(self, test_tok):
+		for unit_tok in test_tok:
+			if self.get_word_type(unit_tok)!='nonsense':
+				return False
+		return True
+
+
 	#process the input
 	def bot_process (self, response):
 		nl_processor = NLProcessor()
@@ -83,11 +98,16 @@ class BotAI(object):
 		else:
 		#Only Nouns
 			if len(context_db)==0:
+				#search words database for what is he/she saying
+				if self.check_for_nonsense(resp_tok):
 				#things doesn't make any sense
-				return "What are you talking about?!"
+					return "What are you talking about?!"
+				else:
+					return "Hi"
 
 		nl_chunker = NLChunker()
 		print(nl_chunker.nl_chunkparse(resp_tagged, "NP: {<DT>?<JJ>*<NN>}"))
+
 
 bot_io = BotIO()
 bot_ai = BotAI()
