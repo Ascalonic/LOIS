@@ -1,6 +1,9 @@
+from __future__ import division
+
 import nltk
 import json
 import re
+
 
 class BotIO(object):
 
@@ -74,8 +77,9 @@ class BotAI(object):
 	#get the type of the word - associated with what
 	def get_word_type(self, test_string):
 		for word_arrays in words_db:
-			if test_string in words_db[word_arrays]:
-				return word_arrays
+			for word_obj in words_db[word_arrays]:
+				if test_string == word_obj['value']:
+					return word_arrays
 		return 'nonsense'
 
 	#check whether the input has nothing to do with any thing in words database
@@ -94,7 +98,7 @@ class BotAI(object):
 
 		if self.not_only_nouns(resp_tagged):
 		#Not only nouns
-			return "No only nouns"
+			return "Not only nouns"
 		else:
 		#Only Nouns
 			if len(context_db)==0:
@@ -103,7 +107,10 @@ class BotAI(object):
 				#things doesn't make any sense
 					return "What are you talking about?!"
 				else:
-					return "Hi"
+				#find the context
+					for tok in resp_tok:
+						if self.get_word_type(tok)=='greeting':
+							return "Hello..."
 
 		nl_chunker = NLChunker()
 		print(nl_chunker.nl_chunkparse(resp_tagged, "NP: {<DT>?<JJ>*<NN>}"))
