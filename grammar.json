@@ -1,0 +1,1 @@
+{"greeting": [{"grammar": ["greeting", "name"], "weight": 0.5}, {"grammar": ["greeting", "type"], "weight": 0.5}]}

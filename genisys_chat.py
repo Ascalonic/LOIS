@@ -55,6 +55,7 @@ class DictMgr(object):
 dict_mgr = DictMgr()
 knowledge_db = dict_mgr.read_dict('knowledge')
 words_db = dict_mgr.read_dict('words')
+grammar_db = dict_mgr.read_dict('grammar')
 context_db = {}
 
 ###############################################################
@@ -86,6 +87,29 @@ class BotAI(object):
 				if test_string == key:
 					return word_objs
 		return 'nonsense'
+
+	#get the type of the knowledge - associated with what
+	def get_knowledge_type(self, test_string):
+		for word_objs in knowledge_db:
+			for key in knowledge_db[word_objs]:
+				if test_string == knowledge_db[word_objs][key].lower():
+					return (str(word_objs) + "." + str(key))
+		return 'nonsense'
+
+	#generalised version of getting the type of word
+	def get_general_type(self, test_string):
+		my_word_type = self.get_word_type(test_string)
+		my_know_type = self.get_knowledge_type(test_string)
+
+		if my_know_type=='nonsense' and my_word_type!='nonsense':
+			return my_word_type
+		elif my_word_type=='nonsense' and my_know_type!='nonsense':
+			return my_know_type
+		elif my_word_type!= 'nonsense' and my_know_type!='nonsense':
+			return my_know_type
+		else:
+			return 'nonsense'
+				
 
 	#check whether the input has nothing to do with any thing in words database
 	def check_for_nonsense(self, test_tok):
@@ -122,10 +146,12 @@ class BotAI(object):
 					return "What are you talking about?!"
 				else:
 				#find the context
+					word_types = []
 					for tok in resp_tok:
-						if self.get_word_type(tok)=='greeting':
-							self.modify_weights('greeting',tok)
-							return "Hello..."
+						word_types.append(self.get_general_type(tok))
+
+					return ''.join(word_types)
+
 
 		nl_chunker = NLChunker()
 		print(nl_chunker.nl_chunkparse(resp_tagged, "NP: {<DT>?<JJ>*<NN>}"))
@@ -146,3 +172,4 @@ bot_io.bot_say("Goodbye, It was fun talking to you!")
 
 dict_mgr.write_dict('knowledge', knowledge_db)
 dict_mgr.write_dict('words', words_db)
+dict_mgr.write_dict('grammar', grammar_db)

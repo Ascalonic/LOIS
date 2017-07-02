@@ -1,0 +1,14 @@
+{
+  "greeting": [
+    [
+      [
+        "greeting",
+        "name"
+      ],
+      [
+        "greeting",
+        "type"
+      ]
+    ]
+  ]
+}
