@@ -145,7 +145,22 @@ class BotAI(object):
 						chunk_exists = True
 
 				if chunk_exists:
-					return str(grammar_obj)
+				#match the high level grammar
+					grammar_str = grammar_variant['grammar'] #store word type association
+					cur_index = 0
+					for tagged in test_tagged:
+						grammar_obj_split = grammar_str[cur_index].split(':')
+						if (self.get_general_type(tagged[0]) != grammar_obj_split[0]) or (tagged[1] not in grammar_obj_split[1]):
+							print self.get_general_type(tagged[0])
+							print grammar_obj_split[0]
+							print tagged[1]
+							print grammar_obj_split[1]
+							return "No Match"
+						else:
+							return grammar_obj
+
+						cur_index+=1
+					
 		
 				
 
