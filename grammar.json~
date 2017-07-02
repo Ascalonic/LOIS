@@ -1,14 +1,1 @@
-{
-  "greeting": [
-    [
-      [
-        "greeting",
-        "name"
-      ],
-      [
-        "greeting",
-        "type"
-      ]
-    ]
-  ]
-}
+{"greeting": [{"base_grammar": "{<NN>+}", "grammar": ["greeting:NN", "name:NN"], "weight": 0.4}, {"base_grammar": "{<NN>+}", "grammar": ["greeting:NN", "type:NN"], "weight": 0.4}, {"base_grammar": "{<NN>+}", "grammar": ["greeting:NN"], "weight": 0.2}]}

@@ -128,6 +128,27 @@ class BotAI(object):
 			if key!=word:
 				words_db[word_type][key] = (words_db[word_type][key]/other_weight)*new_weight
 
+
+	#match garmmar pattern with any base grammar in the database
+	def match_base_grammar(self, test_tagged):
+		nl_chunker = NLChunker()
+		for grammar_obj in grammar_db:
+			for grammar_variant in grammar_db[grammar_obj]:
+				chunk_output = nl_chunker.nl_chunkparse(test_tagged, "CHUNK:"+ grammar_variant['base_grammar'] )
+				#chunk_output.draw()
+
+				chunk_exists = False
+				for child in chunk_output:
+					if (type(child) is nltk.Tree) and child.label()!='CHUNK':
+						return "none"
+					elif type(child) is nltk.Tree and child.label()=='CHUNK':
+						chunk_exists = True
+
+				if chunk_exists:
+					return str(grammar_obj)
+		
+				
+
 	#process the input
 	def bot_process (self, response):
 		nl_processor = NLProcessor()
@@ -148,13 +169,19 @@ class BotAI(object):
 				#find the context
 					word_types = []
 					for tok in resp_tok:
-						word_types.append(self.get_general_type(tok))
+						word_types.append(self.get_general_type(tok))	
 
-					return ''.join(word_types)
+					print(self.match_base_grammar(resp_tagged))
 
+					return "ok"
 
-		nl_chunker = NLChunker()
-		print(nl_chunker.nl_chunkparse(resp_tagged, "NP: {<DT>?<JJ>*<NN>}"))
+		#nl_chunker = NLChunker()
+		#chunk_output = nl_chunker.nl_chunkparse(resp_tagged, "NP: {<NN>+}")
+		#for child in chunk_output:
+    			#if type(child) is nltk.Tree:
+				#print(child.label())
+
+		#return "Ok"
 
 
 bot_io = BotIO()
