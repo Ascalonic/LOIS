@@ -1,1 +1,0 @@
-{"greeting": [{"base_grammar": "{<NN>+}", "grammar": ["greeting:NN", "self.name:NN"], "weight": 0.4}, {"base_grammar": "{<NN>+}", "grammar": ["greeting:NN", "self.type:NN"], "weight": 0.4}, {"base_grammar": "{<NN>+}", "grammar": ["greeting:NN"], "weight": 0.2}]}
